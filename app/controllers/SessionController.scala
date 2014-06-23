@@ -6,9 +6,6 @@ import play.api._
 import play.api.mvc._
 import play.api.libs.iteratee.Enumerator
 
-/**
- * Created by 4006846 on 2014/06/20.
- */
 object SessionController extends Controller{
   def setSession =Action{ implicit request =>
     val data = new java.util.Date().toString()
