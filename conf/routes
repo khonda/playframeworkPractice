@@ -23,7 +23,8 @@ GET     /readSession                controllers.SessionController.getSession
 GET     /saveFlash                  controllers.SessionController.setFlash
 GET     /readFlash                  controllers.SessionController.getFlash
 GET     /show                       controllers.TemplateController.show
-
+GET     /user/entry                 controllers.UserController.entryInit
+POST    /user/entry                 controllers.UserController.entrySubmit
 
 
 
