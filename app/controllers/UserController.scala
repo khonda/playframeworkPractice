@@ -4,24 +4,38 @@ import play.api.mvc._
 import play.api.data._
 import play.api.data.Forms._
 import models._
+import services.UserService
 
 object UserController extends Controller {
   /** Form定義 */
   val userForm = Form(
-    mapping(
+    tuple(
       "name" -> nonEmptyText,
       "email" -> email,
-      "age" -> number)(User.apply)(User.unapply))
+      "password" -> nonEmptyText))
 
   /** 初期画面関数 */
-  def entryInit = Action {
-    val filledForm = userForm.fill(User("user name", "email address", 30))
-    Ok(views.html.user.entry(filledForm))
+  def entryInit = Action { implicit request =>
+    val filledForm = userForm.fill("user name", "email address", "password")
+    Ok(views.html.user.entry(flash.get("result").getOrElse(""), filledForm))
   }
   /** ユーザー登録関数 */
   def entrySubmit = Action { implicit request =>
-    val user = userForm.bindFromRequest.get
-    println(user)
-    Ok(views.html.user.entrySubmit())
+    userForm.bindFromRequest.fold(
+      errors => {
+        BadRequest(views.html.user.entry("error", errors))
+      },
+      success => {
+        val (name, email, password) = success
+        UserService.entry(name,email,password) match {
+          case Some(id) => {
+            UserService.findByPk(id) match {
+              case Some(u) => Ok(views.html.user.entrySubmit(u))
+              case None => Redirect("/user/entry").flashing("result" -> "user not found")
+            }
+          }
+          case None => Redirect("/user/entry").flashing("result" -> "entry failure")
+        }
+      })
   }
 }

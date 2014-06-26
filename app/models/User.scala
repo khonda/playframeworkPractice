@@ -1,3 +1,12 @@
 package models
 
-case class User(name: String, email: String, age: Int)
+import java.sql.Timestamp
+
+case class User(
+                 id:Option[Long],
+                 name:String,
+                 email: String,
+                 password:String,
+                 createDate:Option[Timestamp])
+
+
