@@ -9,8 +9,8 @@ object UserController extends Controller {
   /** Form定義 */
   val userForm = Form(
     mapping(
-      "name" -> text,
-      "email" -> text,
+      "name" -> nonEmptyText,
+      "email" -> email,
       "age" -> number)(User.apply)(User.unapply))
 
   /** 初期画面関数 */
