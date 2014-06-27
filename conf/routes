@@ -26,7 +26,12 @@ GET     /show                       controllers.TemplateController.show
 GET     /user/entry                 controllers.UserController.entryInit
 POST    /user/entry                 controllers.UserController.entrySubmit
 
+# JSON practice
+GET     /simpleJson                 controllers.JsonController.simpleJson
+GET     /simpleJson2                controllers.JsonController.simpleJson2
 
+# CoffeeSample
+GET     /coffeeSample                controllers.CoffeeController.index
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
